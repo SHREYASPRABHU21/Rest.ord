@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {BrowserRouter,Routes,Route, Link} from "react-router-dom";
+import Navbar from "./components/navbar/Navbar";
+import About from './components/frontpage/About';
+import Footer from './components/footer/Footer';
+import Login from './components/frontpage/Login';
+import Features from './components/frontpage/Features';
+import features from './components/data';
+
+function createFeatures(features){
+  return(
+    <Features 
+      icon = {features.icon}
+      headtext ={features.headtext}
+      description = {features.description}
+    />
+  )
+}
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <>
+
+    <Navbar />
+    <About /> 
+    <div className="feature">{features.map(createFeatures)}</div>
+    <Login />
+    <Footer />
+
+    </>
+
   );
 }
 
 export default App;
+
+
+
+
+// <BrowserRouter>
+    //   <Routes>
+    //     <Route></Route>
+    //     </Routes>
+    // </BrowserRouter>
