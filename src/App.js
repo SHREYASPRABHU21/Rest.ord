@@ -6,6 +6,12 @@ import Footer from './components/footer/Footer';
 import Login from './components/frontpage/Login';
 import Features from './components/frontpage/Features';
 import features from './components/data';
+import Card from './components/Card';
+import Restaurant from './components/restaurantPage/Restaurant';
+import Customer from './components/customerPage/Customer';
+
+
+
 
 function createFeatures(features){
   return(
@@ -22,12 +28,19 @@ function App() {
   return (
     
     <>
+         <Navbar />
+         {/*---------------------------------- home Page ------------------------------ */}
+         {/* <About /> 
+         <div className="feature">{features.map(createFeatures)}</div>
+         <Login /> */}
 
-    <Navbar />
-    <About /> 
-    <div className="feature">{features.map(createFeatures)}</div>
-    <Login />
-    <Footer />
+         {/* ------------------------------------- Restaurant Page --------------------------- */}
+         {/* <Restaurant /> */}
+
+         {/* ----------------------------------- customer page ----------------------------- */}
+         <Customer />
+
+         <Footer />
 
     </>
 
@@ -44,3 +57,10 @@ export default App;
     //     <Route></Route>
     //     </Routes>
     // </BrowserRouter>
+
+/* front page
+    <About /> 
+    <div className="feature">{features.map(createFeatures)}</div>
+    <Login />
+    <Footer />
+*/
