@@ -4,6 +4,7 @@ import {FaPlusCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import Card from '../Card';
 import OrderSlide from './OrderSlide';
+import axios from "../../axios.js";
 
 
 function Restaurant(){
@@ -12,10 +13,18 @@ function Restaurant(){
     const [isEnteredt,setEnteredt ] = useState(1);
     const [isMenu,setMenu ] = useState(0);
     const [isActiveForm,setActiveForm ] = useState(0);
+    const [name,setName] = useState("");
+    const [restaurantAdd,setRestadd] = useState("");
+    
 
 
-    function enteredo(){
-        setEnteredo(0);
+    const enteredo = (e)=>{
+        e.preventDefault();
+
+        axios.post("/restaurant",{name}).then(()=>{
+            setEnteredo(0);
+
+        }).catch((error)=>alert(error.message));
     }
     function enteredt(){
         setEnteredt(0);
@@ -37,17 +46,17 @@ function Restaurant(){
         <div className="restaurant">
             <div className="rest-top">
             <h1 className='rest-name'>Restaurant Name</h1>
-                    {isEnteredo ?<form action="/Restaurant" method="post" className='rest-form'> 
-                    <div class="form">
-                        <input class="email input" type="text" name="restaurant" />
-                        <label class="label" for="restaurant">Admin Username</label>
+                    {isEnteredo ?<form method="post" className='rest-form'> 
+                    <div className="form">
+                        <input className="email input" value={name} onChange={(e)=>{setName(e.target.value)}} type="text" name="name" />
+                        <label className="label" htmlhtmlFor="name">Admin Username</label>
                         <button className="signup rest-details" onClick={enteredo} type="submit">Enter</button>
                     </div></form>:<p className='rest-place'>Owned by Admin name </p>
                     }                    
                     {isEnteredt ?<form action="/Restaurant" method="post" className='rest-form'> 
-                    <div class="form">
-                        <input class="email input" type="text" name="restaurant" />
-                        <label class="label" for="restaurant">Restaurant Address</label>
+                    <div className="form">
+                        <input className="email input" value={restaurantAdd} onChange={(e)=>{setRestadd(e.target.value)}} type="text" name="restaurantAdd" />
+                        <label className="label" htmlFor="restaurantAdd">Restaurant Address</label>
                         <button className="signup" onClick={enteredt} type="submit">Enter</button>
                     </div></form>:<p className='rest-place'>Restaurant place </p>
                     }         
@@ -86,21 +95,21 @@ function Restaurant(){
             {isActiveForm ?<div className="item-form">
             <form action = "/Restaurant" method ="post">
             <h1 style={{textAlign:"center",margin:0}}> Food Details!</h1>
-            <div class="form">
-                        <input class="email input" type="text" name="restaurant" />
-                        <label class="label" for="restaurant">Food Name</label>
+            <div className="form">
+                        <input className="email input" type="text" name="restaurant" />
+                        <label className="label" htmlFor="restaurant">Food Name</label>
                     </div>
-                    <div class="form">
-                        <input class="email input" type="text" name="restaurant" />
-                        <label class="label" for="restaurant">Food Description</label>
+                    <div className="form">
+                        <input className="email input" type="text" name="restaurant" />
+                        <label className="label" htmlFor="restaurant">Food Description</label>
                     </div>
-                    <div class="form">
-                        <input class="email input" type="text" name="restaurant" />
-                        <label class="label" for="restaurant">Food Price</label>
+                    <div className="form">
+                        <input className="email input" type="text" name="restaurant" />
+                        <label className="label" htmlFor="restaurant">Food Price</label>
                     </div>
-                    <div class="form">
-                        <input class="email input" type="text" name="restaurant" />
-                        <label class="label" for="restaurant">Food Image Url</label>
+                    <div className="form">
+                        <input className="email input" type="text" name="restaurant" />
+                        <label className="label" htmlFor="restaurant">Food Image Url</label>
                     </div>
                     
                     <button className="signup" onClick={citemForm} type="submit">Submit</button>
