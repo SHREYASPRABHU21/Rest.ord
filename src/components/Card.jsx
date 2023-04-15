@@ -7,13 +7,14 @@ import { IconContext } from "react-icons";
 function Card(props){
     var page = props.page;
     var type = props.type;
-
+    console.log(props.iname);
+    console.log(props.rname);
     return(
         
         <div className="card" >
         <div className='card-main' >
             <div className="cimg" >
-                <img src={Img} className='card-image' alt="img" />
+                <img src={props.url} className='card-image' alt="img" />
             </div>
             {page == "rest" ? 
             <div className='rest'>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Card from '../Card';
 import OrderSlide from '../restaurantPage/OrderSlide';
@@ -9,18 +9,34 @@ function Customer(){
     const [isEntered,setEntered ] = useState(1);
     const [isRest,setRest] = useState(0);
     const [isEnteredt,setEnteredt ] = useState(1);
+    const [name,setName] = useState("");
+    const [place,setPlace] = useState("");
+    const [restaurants,setRestaurants] = useState("");
 
-
-    function enteredt(){
-      setEnteredt(0);
-  }
     const entered = (e)=>{
           e.preventDefault();
-          axios.post("/customer",{Customer}).then(()=>{
-                  setEntered(0);
+          axios.post("/customer",{name,place}).then((data)=>{
+            console.log(data);
+                  
           }).catch((error)=>alert(error.message));
+          setEntered(0);
+          setEnteredt(0);
+          setPlace(place);
+          setName(name);
     }
   
+    useEffect(()=>{
+      const fetchData = async ( )=>{
+        const data = await axios.get("/customer").then((response)=>{
+          console.log(response.data);
+          setRestaurants(response);
+        });
+      };
+      fetchData();
+    },[]);
+
+  
+
 
     function custMenu(){
         setRest(0);
@@ -33,20 +49,21 @@ function Customer(){
     return(
         <div className="customer">
             <div className="rest-top">
-            <h1 className='rest-name'>Hello, customer name! </h1>
+            <h1 className='rest-name'>Hello, customer name!</h1>
                     {isEntered ?<form method="post" className='rest-form'> 
                     <div className="form">
-                        <input className="email input" type="text" name="Customer" />
-                        <label className="label" htmlFor="Customer">Name</label>
-                        <button className="signup rest-details" onClick={entered} type="submit">Enter</button>
-                    </div></form>:<p className='rest-place'><strong >userName:</strong>UserNAme </p>
+
+                        <input className="email input" onChange={(e)=>{setName(e.target.value)}} value={name} type="text" name="name" />
+                        <label className="label" htmlFor="name">Name</label>
+                    </div></form>:<p className='rest-place'><strong >userName:</strong>{name} </p>
                     }       
-                    {isEnteredt ?<form action="/Restaurant" method="post" className='rest-form'> 
+                    {isEnteredt ?<form method="post" className='rest-form'> 
                     <div className="form">
-                        <input className="email input" type="text" name="restaurant" />
+                        <input className="email input" onChange={(e)=>{setPlace(e.target.value)}} value={place} type="text" name="restaurant" />
                         <label className="label" htmlFor="restaurant">Address</label>
-                        <button className="signup" onClick={enteredt} type="submit">Enter</button>
-                    </div></form>:<p className='rest-place'><strong>Delivery Adress: </strong>address</p>
+                    </div>
+                    <button className="signup rest-details" onClick={entered} type="submit">Enter</button>
+                    </form>:<p className='rest-place'><strong>Delivery Adress: </strong>{place}</p>
                     }                   
                      
             </div>
@@ -63,26 +80,29 @@ function Customer(){
             :
             <div className="rest-list">
                 <div className="menu-item-cards">
+                {
+                  restaurants && restaurants.data.map((restaurant) =>(
+                    <Card 
+                      key= {restaurant._id}
+                      page = "rest"
+                      bimg = {restaurant.url}
+                      rname = {restaurant.rName}
+                      place = {restaurant.place}
+
+                    />
+                    
+                  ))
+                 
+                }
+               
             {/*-------------------------------- restuarant list -------------------------- */}
-          <Card 
-            page = "rest"
-            bimg = "https://burst.shopifycdn.com/photos/woman-dressed-in-white-leans-against-a-wall.jpg?width=1200&format=pjpg&exif=0&iptc=0"
-            rname = "Bombay dine"
-            place = 'resst osdf'
-
-          />
-          <Card 
-            page = "rest"
-            place = "achuth"
-            bimg = "https://burst.shopifycdn.com/photos/woman-dressed-in-white-leans-against-a-wall.jpg?width=1200&format=pjpg&exif=0&iptc=0"
-            rname = "Bombay dine"
-
-          />
+         
+         
           
           {/* restaurant items menu for customers */}
           <Card 
             page = "menu"
-            bimg = "https://burst.shopifycdn.com/photos/woman-dressed-in-white-leans-against-a-wall.jpg?width=1200&format=pjpg&exif=0&iptc=0"
+            bimg = ""
             type = "non-item"
             price = "10.5"
             iname = "Bombay dine"

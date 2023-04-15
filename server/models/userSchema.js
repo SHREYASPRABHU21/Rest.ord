@@ -1,39 +1,42 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Order = require("./orderSchema")
+const Restaurant = require("./restaurantSchema.js");
 
 const userSchema = new mongoose.Schema({
     email:{
-        type: "string",
+        type: String,
         required : true
     },
     password:{
-        type: "string",
+        type: String,
         required : true
     },
     cpassword:{
-        type: "string"
+        type: String
     },
     restaurantName:{
-        type: "string"
-    },
-    name:{
-        type: "string"
-    },
-    place:{
-        type:"string"
-    },tokens:[{
+        type: String
+    }
+    ,tokens:[{
         token:{
-            type: "string",
+            type: String,
             required:true
         }
-    }]
-
+    }],
+    name:{
+        type: String
+    },
+    place:{
+        type:String
+    }
 });
 
-userSchema.methods.generateAuthToken = async function(){
+userSchema.methods.generateAuthToken =  function(){
     try{
         const token = jwt.sign({_id:this._id.toString()},"12345678901234567890123456789012");
+        console.log(this._id);
         this.tokens = this.tokens.concat({token:token});
         return token;
     }catch(err){

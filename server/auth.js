@@ -1,23 +1,24 @@
-const jwt = require("jsonwebtoken");
-const User = require("./models/userSchema.js");
+// const jwt = require("jsonwebtoken");
+// const User = require("./models/userSchema.js");
 
-const auth = async (req,res,next)=>{
-    try{
-        const token = req.cookies.jwt;
-        const verifyUser = jwt.verify(token,"12345678901234567890123456789012");
-        console.log(verifyUser);
 
-        const user = User.findOne({_id:verifyUser._id});
-        console.log(user);
+// const auth = async (req,res,next)=>{
+//     try{
+//         const token = req.cookies.jwt;
+//         const verifyUser = jwt.verify(token,"12345678901234567890123456789012");
+//         console.log(verifyUser);
 
-        next();
-    }catch(error){
-        res.status(401).send(error);
-        console.log(error);
-    }
-}
+//         const user = User.findOne({_id:verifyUser._id});
+//         console.log(user);
 
-module.exports = auth;
+//         next();
+//     }catch(error){
+//         res.status(401).send(error);
+//         console.log(error);
+//     }
+// }
+
+// module.exports = auth;
 
 // .post("/",async (req,res)=>{
 //     const {email,password,cpassword,restaurantName} = req.body;

@@ -1,34 +1,44 @@
 import React from 'react';
-import {useState} from "react";
+import {useState,useEffect} from "react";
 import Logo from '../Logo';
-import { useNavigate } from "react-router-dom";
-import axios from "../../axios.js";
+import axios from 'axios';    
+import {useNavigate} from "react-router-dom";
 function Login(){
-
     const navigate = useNavigate();
-
-
     const [restaurantName,setRestaurant] = useState("");
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [cpassword,setCpassword] = useState("");
+    const [users,setUsers] = useState("");
 
     const PostData = (e)=>{
         e.preventDefault();
         axios.post("/",{restaurantName,email,password,cpassword}).then(()=>{
+            console.log("posted");         
+        }).catch((error)=>alert(error.message));
+        setRestaurant("");
+            setEmail("");
+            setPassword("");
+            setCpassword("");
             if(!restaurantName){
                 navigate("/customer");
             }else{
                 navigate("/restaurant");
             }
-            setRestaurant("");
-            setEmail("");
-            setPassword("");
-            setCpassword("");
 
-        }).catch((error)=>alert(error.message));
         
     }
+
+    useEffect(()=>{
+        const fetchData = async ( )=>{
+          const data = await axios.get("/").then((response)=>{
+            console.log(response);
+            setUsers(response);
+          });
+        };
+        fetchData();
+      },[]);
+  
 
 
     // const [user,setUser] = useState({
@@ -77,25 +87,21 @@ function Login(){
 
     const [isShow, setShow] = useState(0);
     const [isRest, setRest] = useState(0);
-    const [isLogin, setLogin] = useState(0);
 
     function signup(){
         setShow(0);
         setRest(0);
-        setLogin(0);
     }
 
     function login(){
         setShow(1);
         setRest(0);
-        setLogin(1);
     }
     
     function restaurant(){
         setShow(0);
         setRest(1);
     }
-
 
     return (
         <>
@@ -131,7 +137,7 @@ function Login(){
                     </div>} 
                     
                     {isRest?<button className="signup" onClick={PostData} type="submit">  Register </button>:
-                    <button className="signup" onClick={PostData} type="submit">  SignIn </button>}
+                    <button className="signup" onClick={PostData} type="submit">  Join </button>}
                 </form> 
                 {isRest ? <p className="rest-signup">Customer? <button onClick={signup} className='rsbutton'>Register Now!</button></p>:
                 <p className="rest-signup">Own a restaurant? <button onClick={restaurant} className='rsbutton'>Add Your Restaurant!</button></p>}

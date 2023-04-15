@@ -164,6 +164,8 @@ ul{
     display: flex;
     flex-direction: column;
     margin: 10px;
+    margin-left: 10%;
+
     margin-top: 30px;
 
   }
@@ -366,6 +368,10 @@ ul{
 
 }
 
+.rest-details{
+    /* margin-left: 10%; */
+}
+
 
 /* footer */
 
@@ -454,7 +460,11 @@ ul{
     border: 1px solid grey;
     border-radius: 10px;
     
+}
 
+a{
+    text-decoration: none;
+    color:inherit;
 }
 
 .card-image{
@@ -520,6 +530,7 @@ ul{
     flex-wrap: wrap;
     flex-direction: column;
     width: 95%;
+    text-align: center;
 }
 
 .rest-place{
